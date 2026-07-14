@@ -8,6 +8,7 @@ import Coach from "./components/Coach";
 import Pricing from "./components/Pricing";
 import Camp from "./components/Camp";
 import Contacts from "./components/Contacts";
+import SiteFooter from "./components/SiteFooter";
 import { useScrollReveal } from "./hooks/useScrollReveal";
 
 function Divider() {
@@ -26,9 +27,11 @@ export default function App() {
       <Preloader />
       <GlowBackground />
       <div className="relative z-10">
-        <Header />
-        <main>
+        <div className="relative">
+          <Header />
           <Hero />
+        </div>
+        <main>
           <About />
           <Divider />
           <DirectionsGrid />
@@ -41,6 +44,7 @@ export default function App() {
           <Divider />
           <Contacts />
         </main>
+        <SiteFooter />
       </div>
     </div>
   );
