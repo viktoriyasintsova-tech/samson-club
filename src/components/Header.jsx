@@ -73,8 +73,8 @@ export default function Header() {
             <img
               src={
                 lightUI
-                  ? `${import.meta.env.BASE_URL}assets/logo-dark.png?v=6`
-                  : `${import.meta.env.BASE_URL}assets/logo.png?v=6`
+                  ? `${import.meta.env.BASE_URL}assets/logo-dark.png?v=7`
+                  : `${import.meta.env.BASE_URL}assets/logo.png?v=7`
               }
               alt={club.name}
               className={`anim-slide-right-el w-auto transition-[height] duration-500 ${
