@@ -16,7 +16,7 @@ export default function Hero() {
 
   return (
     <section id="hero" className="hero-stage">
-      <div className="site-container relative flex min-h-[100svh] flex-col items-center justify-center pt-0 md:pt-16 lg:min-h-[1000px]">
+      <div className="site-container relative flex min-h-[100svh] flex-col items-center justify-center pt-16 lg:min-h-[1000px]">
         <div className="w-full">
           <div className="mx-auto max-w-3xl text-center">
             <h1 className="reveal text-[38px] font-semibold leading-[1.02] tracking-[-0.03em] text-white xs:text-[44px] sm:text-6xl lg:text-[92px]">
