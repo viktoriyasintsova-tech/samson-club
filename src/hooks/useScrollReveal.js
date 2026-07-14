@@ -3,7 +3,7 @@ import { useEffect } from "react";
 const PRELOADER_MS = 1800;
 const SAFETY_MS = 4500;
 
-function setupObserver() {
+function setupRevealObserver() {
   const els = Array.from(document.querySelectorAll(".reveal:not(.is-visible)"));
   if (!els.length) return null;
 
@@ -16,10 +16,30 @@ function setupObserver() {
         }
       });
     },
-    { threshold: 0.12, rootMargin: "0px 0px -6% 0px" }
+    { threshold: 0.12, rootMargin: "0px 0px -6% 0px" },
   );
 
   els.forEach((el) => io.observe(el));
+  return io;
+}
+
+function setupAnimBlocks() {
+  const blocks = Array.from(document.querySelectorAll(".anim-block:not(.active)"));
+  if (!blocks.length) return null;
+
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("active");
+          io.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.14, rootMargin: "0px 0px -8% 0px" },
+  );
+
+  blocks.forEach((el) => io.observe(el));
   return io;
 }
 
@@ -28,37 +48,49 @@ export function useScrollReveal() {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce) {
       document.querySelectorAll(".reveal").forEach((el) => el.classList.add("is-visible"));
+      document.querySelectorAll(".anim-block").forEach((el) => el.classList.add("active"));
+      document.querySelectorAll(".anim-slide-right-wrap").forEach((el) => {
+        el.classList.add("is-ready");
+      });
       return undefined;
     }
 
-    let io = null;
+    let revealIo = null;
+    let animIo = null;
 
-    // Start observing only after the preloader has faded, so above-the-fold
-    // items visibly play their fade-in transition instead of being marked as
-    // "already visible" while covered by the preloader overlay.
-    const startTimer = setTimeout(() => {
-      io = setupObserver();
+    const start = () => {
+      revealIo?.disconnect();
+      animIo?.disconnect();
+      revealIo = setupRevealObserver();
+      animIo = setupAnimBlocks();
+    };
+
+    const heroTimer = setTimeout(() => {
+      document.querySelectorAll(".hero-anim").forEach((el) => el.classList.add("active"));
+      document.querySelectorAll(".header-anim").forEach((el) => el.classList.add("is-ready"));
+      start();
     }, PRELOADER_MS);
 
-    // Re-scan a moment later so any late-mounted `.reveal` node still animates.
-    const rescanTimer = setTimeout(() => {
-      io?.disconnect();
-      io = setupObserver();
-    }, PRELOADER_MS + 900);
+    const rescanTimer = setTimeout(start, PRELOADER_MS + 900);
 
-    // Safety net: nothing must stay invisible forever if an observer misfires
-    // (e.g. element already off-screen when observed, browser quirks, etc.).
     const safety = setTimeout(() => {
       document.querySelectorAll(".reveal:not(.is-visible)").forEach((el) => {
         el.classList.add("is-visible");
       });
+      document.querySelectorAll(".anim-block:not(.active)").forEach((el) => {
+        el.classList.add("active");
+      });
+      document.querySelectorAll(".anim-slide-right-wrap").forEach((el) => {
+        el.classList.add("is-ready");
+      });
     }, SAFETY_MS);
 
     return () => {
-      clearTimeout(startTimer);
+      clearTimeout(heroTimer);
       clearTimeout(rescanTimer);
       clearTimeout(safety);
-      io?.disconnect();
+      revealIo?.disconnect();
+      animIo?.disconnect();
     };
   }, []);
 }

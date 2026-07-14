@@ -46,12 +46,18 @@ export default function Contacts() {
   return (
     <section id="contacts" className="contacts-stage section-pad">
       <div className="site-container">
-        <h2 className="reveal mb-8 text-center text-3xl font-bold tracking-tight text-white xs:text-4xl sm:mb-12 sm:text-5xl lg:text-6xl">
-          Контакты
-        </h2>
+        <div className="anim-block">
+          <div className="anim-slide-up">
+            <h2 className="anim-slide-up-el mb-8 text-center text-3xl font-bold tracking-tight text-white xs:text-4xl sm:mb-12 sm:text-5xl lg:text-6xl">
+              Контакты
+            </h2>
+          </div>
+        </div>
 
         <div className="mx-auto grid max-w-5xl gap-6 lg:grid-cols-[1.05fr_0.95fr]">
-          <div className="reveal contacts-card rounded-3xl p-6 sm:p-8">
+          <div className="anim-block">
+            <div className="anim-slide-up">
+              <div className="anim-slide-up-el contacts-card rounded-3xl p-6 sm:p-8">
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#E4002B]">
               Оставить заявку
             </p>
@@ -132,9 +138,13 @@ export default function Contacts() {
                 MAX
               </Button>
             </div>
+            </div>
+            </div>
           </div>
 
-          <div className="reveal contacts-card flex flex-col justify-center rounded-3xl p-6 sm:p-8" style={{ transitionDelay: "0.12s" }}>
+          <div className="anim-block" style={{ "--anim-delay": "0.12s" }}>
+            <div className="anim-slide-up">
+              <div className="anim-slide-up-el contacts-card flex flex-col justify-center rounded-3xl p-6 sm:p-8">
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#E4002B]">
               Связаться напрямую
             </p>
@@ -181,6 +191,8 @@ export default function Contacts() {
               <div>
                 <p className="text-xs uppercase tracking-[0.18em] text-white/50">Расписание</p>
                 <p className="mt-1 text-sm text-white/80">{contacts.hours}</p>
+              </div>
+            </div>
               </div>
             </div>
           </div>
