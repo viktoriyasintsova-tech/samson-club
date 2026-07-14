@@ -2,6 +2,7 @@ import { club } from "../data/club";
 import { directions } from "../data/directions";
 import { messengerTexts } from "../data/contacts";
 import { buildMessengerLink } from "../utils/helpers";
+import Header from "./Header";
 import Button from "./ui/Button";
 
 export default function Hero() {
@@ -9,14 +10,13 @@ export default function Hero() {
   const directionWords = directions
     .filter((item) => item.title.toLowerCase() !== "индивидуальные")
     .map((item) => item.title.toLowerCase());
-  // Repeat enough times so a single half of the track is wider than any viewport,
-  // which keeps the -50% loop seamless on wide desktop screens (no gap).
   const half = Array.from({ length: 4 }, () => directionWords).flat();
   const looped = [...half, ...half];
 
   return (
     <section id="hero" className="hero-stage">
-      <div className="site-container relative flex min-h-[100svh] flex-col items-center justify-center pt-16 lg:min-h-[1000px]">
+      <Header />
+      <div className="site-container relative flex min-h-[calc(100svh-5rem)] flex-col items-center justify-center md:min-h-[100svh] md:pt-16 lg:min-h-[1000px]">
         <div className="w-full">
           <div className="mx-auto max-w-3xl text-center">
             <h1 className="reveal text-[38px] font-semibold leading-[1.02] tracking-[-0.03em] text-white xs:text-[44px] sm:text-6xl lg:text-[92px]">

@@ -269,6 +269,12 @@
     isolation: isolate;
   }
 
+  @media (max-width: 767px) {
+    .site-header {
+      position: static;
+    }
+  }
+
   .hero-stage::before {
     content: "";
     position: absolute;
