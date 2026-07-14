@@ -59,24 +59,22 @@ export default function Header() {
 
   return (
     <header
-      className={`site-header absolute inset-x-0 top-0 z-50 px-4 pt-5 md:fixed md:transition-transform md:duration-500 md:ease-[cubic-bezier(0.22,1,0.36,1)] ${
+      className={`site-header relative z-50 px-4 pt-5 md:fixed md:inset-x-0 md:top-0 md:transition-transform md:duration-500 md:ease-[cubic-bezier(0.22,1,0.36,1)] ${
         hidden ? "md:-translate-y-full" : "md:translate-y-0"
       }`}
     >
       <div className="site-container relative flex items-center justify-between gap-4 py-1">
-        <div className="anim-slide-right-wrap header-anim relative z-[60]">
-          <a href="#hero" className="anim-slide-right flex items-center">
-            <img
-              src={
-                lightUI
-                  ? `${import.meta.env.BASE_URL}assets/logo-dark.png?v=8`
-                  : `${import.meta.env.BASE_URL}assets/logo.png?v=8`
-              }
-              alt={club.name}
-              className="anim-slide-right-el h-14 w-auto sm:h-16"
-            />
-          </a>
-        </div>
+        <a href="#hero" className="relative z-[60] flex items-center">
+          <img
+            src={
+              lightUI
+                ? `${import.meta.env.BASE_URL}assets/logo-dark.png?v=8`
+                : `${import.meta.env.BASE_URL}assets/logo.png?v=8`
+            }
+            alt={club.name}
+            className="h-14 w-auto sm:h-16"
+          />
+        </a>
 
         <nav className="absolute left-1/2 hidden -translate-x-1/2 gap-8 md:flex">
           {navLinks.map((item) => (

@@ -27,11 +27,9 @@ export default function App() {
       <Preloader />
       <GlowBackground />
       <div className="relative z-10">
-        <div className="relative">
-          <Header />
-          <Hero />
-        </div>
+        <Header />
         <main>
+          <Hero />
           <About />
           <Divider />
           <DirectionsGrid />
