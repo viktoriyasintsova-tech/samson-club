@@ -51,9 +51,9 @@ export default function Header() {
       <div className="site-container relative flex items-center justify-between gap-4 py-1">
         <a href="#hero" className="relative z-[60] flex items-center">
           <img
-            src={lightUI ? `${import.meta.env.BASE_URL}assets/logo-dark.png?v=5` : `${import.meta.env.BASE_URL}assets/logo.png?v=5`}
+            src={lightUI ? `${import.meta.env.BASE_URL}assets/logo-dark.png?v=6` : `${import.meta.env.BASE_URL}assets/logo.png?v=6`}
             alt={club.name}
-            className="h-12 w-auto sm:h-14"
+            className="h-14 w-auto sm:h-16"
           />
         </a>
 

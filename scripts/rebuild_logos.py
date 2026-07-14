@@ -53,6 +53,15 @@ def outer_ring_mask(shape):
     return r > RING_START
 
 
+def samson_protection_mask(arr, dilate_size=25):
+    """Protect the red САМСОН letters and their immediate navy outline."""
+    r, g, b, al = arr[..., 0], arr[..., 1], arr[..., 2], arr[..., 3]
+    red = (r > 150) & (g < 95) & (b < 95) & (al > 80)
+    red_img = Image.fromarray((red.astype(np.uint8) * 255), "L")
+    dilated = red_img.filter(ImageFilter.MaxFilter(dilate_size))
+    return np.asarray(dilated) > 0
+
+
 def recolor_ring_navy_white(img):
     """Recolour navy-ish opaque pixels in the OUTER RING to pure white.
 
@@ -77,7 +86,7 @@ def recolor_ring_navy_white(img):
     red = (ir > 150) & (ig < 100) & (ib < 100)
     navy &= ~red
 
-    mask = navy & outer_ring_mask(arr.shape)
+    mask = navy & outer_ring_mask(arr.shape) & ~samson_protection_mask(arr)
 
     arr[mask, 0] = 255
     arr[mask, 1] = 255
