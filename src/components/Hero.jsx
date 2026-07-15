@@ -2,7 +2,6 @@ import { club } from "../data/club";
 import { directions } from "../data/directions";
 import { messengerTexts } from "../data/contacts";
 import { buildMessengerLink } from "../utils/helpers";
-import Header from "./Header";
 import Button from "./ui/Button";
 
 export default function Hero() {
@@ -15,7 +14,6 @@ export default function Hero() {
 
   return (
     <section id="hero" className="hero-stage">
-      <Header />
       <div className="site-container relative flex min-h-[100svh] flex-col items-center justify-center pt-16 lg:min-h-[1000px]">
         <div className="w-full">
           <div className="mx-auto max-w-3xl text-center">

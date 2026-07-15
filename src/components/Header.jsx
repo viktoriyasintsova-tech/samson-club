@@ -10,7 +10,6 @@ const LIGHT_SECTION_IDS = ["camp"];
 export default function Header() {
   const [open, setOpen] = useState(false);
   const [light, setLight] = useState(false);
-  const [hidden, setHidden] = useState(false);
   const link = buildMessengerLink("whatsapp", messengerTexts.freeTrial);
 
   useEffect(() => {
@@ -24,15 +23,6 @@ export default function Header() {
     const probe = 44;
 
     const onScroll = () => {
-      const about = document.getElementById("about");
-      const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
-
-      if (isDesktop && about) {
-        setHidden(about.getBoundingClientRect().bottom < probe);
-      } else {
-        setHidden(false);
-      }
-
       let isLight = false;
       for (const id of LIGHT_SECTION_IDS) {
         const el = document.getElementById(id);
@@ -58,11 +48,7 @@ export default function Header() {
   const lightUI = light && !open;
 
   return (
-    <header
-      className={`site-header absolute inset-x-0 top-0 z-50 px-4 pt-5 lg:fixed lg:transition-transform lg:duration-500 lg:ease-[cubic-bezier(0.22,1,0.36,1)] ${
-        hidden ? "lg:-translate-y-full" : "lg:translate-y-0"
-      }`}
-    >
+    <header className="fixed inset-x-0 top-0 z-50 px-4 pt-5">
       <div className="site-container relative flex items-center justify-between gap-4 py-1">
         <a href="#hero" className="relative z-[60] flex items-center">
           <img
@@ -76,7 +62,7 @@ export default function Header() {
           />
         </a>
 
-        <nav className="absolute left-1/2 hidden -translate-x-1/2 gap-8 lg:flex">
+        <nav className="absolute left-1/2 hidden -translate-x-1/2 gap-8 md:flex">
           {navLinks.map((item) => (
             <a
               key={item.href}
@@ -95,14 +81,14 @@ export default function Header() {
             href={link}
             variant={lightUI ? "headerAccentLight" : "headerAccent"}
             size="header"
-            className="hidden lg:inline-flex"
+            className="hidden md:inline-flex"
           >
             Записаться
           </Button>
 
           <button
             type="button"
-            className={`relative z-[60] transition-colors lg:hidden ${
+            className={`relative z-[60] transition-colors md:hidden ${
               lightUI ? "text-[#141414]" : "text-white"
             }`}
             onClick={() => setOpen((v) => !v)}
@@ -114,7 +100,7 @@ export default function Header() {
       </div>
 
       {open && (
-        <div className="fixed inset-0 z-50 flex flex-col bg-[#05060a]/95 backdrop-blur-3xl lg:hidden">
+        <div className="fixed inset-0 z-50 flex flex-col bg-[#05060a]/95 backdrop-blur-3xl md:hidden">
           <nav className="flex flex-1 flex-col items-center justify-center gap-7">
             {navLinks.map((item) => (
               <a

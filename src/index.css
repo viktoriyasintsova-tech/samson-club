@@ -255,12 +255,6 @@
     isolation: isolate;
   }
 
-  @media (max-width: 1023px) {
-    .site-header {
-      position: absolute !important;
-    }
-  }
-
   .hero-stage::before {
     content: "";
     position: absolute;
@@ -307,7 +301,7 @@
     z-index: 1;
   }
 
-  .hero-stage > *:not(.site-header) {
+  .hero-stage > * {
     position: relative;
     z-index: 2;
   }
