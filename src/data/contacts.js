@@ -5,8 +5,8 @@ export const contacts = {
   maxName: "Макс",
   maxPhone: "+7 905 969 71 07",
   maxPhoneLink: "tel:+79059697107",
-  telegram: "https://t.me/share/url?url=&text=",
   whatsapp: "https://wa.me/79832165555",
+  telegramLink: "https://t.me/Nikita_Neshtukov",
   locations: [
     {
       name: "Рудничный район",

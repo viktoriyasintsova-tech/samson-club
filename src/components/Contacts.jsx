@@ -1,14 +1,29 @@
 import { useMemo, useState } from "react";
-import { Check, Copy, Phone } from "lucide-react";
+import { createPortal } from "react-dom";
+import { Check, ClipboardCheck, Copy, Phone, X } from "lucide-react";
 import { contacts } from "../data/contacts";
 import { directions } from "../data/directions";
 import Button from "./ui/Button";
+
+async function copyText(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+  } catch {
+    const el = document.createElement("textarea");
+    el.value = text;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand("copy");
+    document.body.removeChild(el);
+  }
+}
 
 export default function Contacts() {
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
   const [direction, setDirection] = useState("");
   const [copied, setCopied] = useState(false);
+  const [telegramHint, setTelegramHint] = useState(false);
 
   const application = useMemo(() => {
     const lines = [
@@ -22,22 +37,17 @@ export default function Contacts() {
 
   const encoded = encodeURIComponent(application);
   const whatsappLink = `https://wa.me/${contacts.whatsappNumber}?text=${encoded}`;
-  const telegramLink = `https://t.me/share/url?url=&text=${encoded}`;
   const maxLink = `https://max.ru/:share?text=${encoded}`;
 
   const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(application);
-    } catch {
-      const el = document.createElement("textarea");
-      el.value = application;
-      document.body.appendChild(el);
-      el.select();
-      document.execCommand("copy");
-      document.body.removeChild(el);
-    }
+    await copyText(application);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleTelegram = async () => {
+    await copyText(application);
+    setTelegramHint(true);
   };
 
   const inputBase =
@@ -125,7 +135,11 @@ export default function Contacts() {
               <Button href={whatsappLink} variant="headerAccent" className="flex-1 justify-center">
                 WhatsApp
               </Button>
-              <Button href={telegramLink} variant="headerAccent" className="flex-1 justify-center">
+              <Button
+                onClick={handleTelegram}
+                variant="headerAccent"
+                className="flex-1 justify-center"
+              >
                 Telegram
               </Button>
               <Button href={maxLink} variant="headerAccent" className="flex-1 justify-center">
@@ -134,7 +148,10 @@ export default function Contacts() {
             </div>
           </div>
 
-          <div className="reveal contacts-card flex flex-col justify-center rounded-3xl p-6 sm:p-8" style={{ transitionDelay: "0.12s" }}>
+          <div
+            className="reveal contacts-card flex flex-col justify-center rounded-3xl p-6 sm:p-8"
+            style={{ transitionDelay: "0.12s" }}
+          >
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#E4002B]">
               Связаться напрямую
             </p>
@@ -193,6 +210,70 @@ export default function Contacts() {
           </div>
         </div>
       </div>
+
+      {telegramHint &&
+        typeof document !== "undefined" &&
+        createPortal(
+          <div className="fixed inset-0 z-[200] flex items-end justify-center px-4 pb-[max(16px,env(safe-area-inset-bottom))] sm:items-center sm:pb-4">
+            <button
+              type="button"
+              aria-label="Закрыть"
+              onClick={() => setTelegramHint(false)}
+              className="absolute inset-0 bg-black/70"
+            />
+            <div className="relative w-full max-w-[440px] rounded-3xl border border-white/10 bg-[#111318] p-5 shadow-[0_24px_60px_rgba(0,0,0,0.45)] sm:p-6">
+              <div className="flex items-start gap-3">
+                <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#E4002B] text-white">
+                  <ClipboardCheck className="h-5 w-5" strokeWidth={1.9} />
+                </span>
+                <div className="min-w-0 flex-1">
+                  <p className="text-[15px] font-semibold text-white">Заявка скопирована</p>
+                  <p className="mt-1.5 text-[13px] leading-[1.55] text-white/65">
+                    Текст заявки сохранён в буфер обмена. Откройте Telegram и вставьте сообщение в
+                    чат.
+                  </p>
+                  <ol className="mt-3 space-y-2">
+                    {[
+                      "Нажмите «Открыть Telegram» — откроется чат с тренером.",
+                      "В поле сообщения нажмите «Вставить» (или Ctrl/⌘ + V).",
+                      "Отправьте сообщение — мы свяжемся с вами.",
+                    ].map((step, i) => (
+                      <li
+                        key={step}
+                        className="flex gap-2.5 text-[13px] leading-[1.45] text-white/80"
+                      >
+                        <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white/10 text-[11px] font-semibold text-white">
+                          {i + 1}
+                        </span>
+                        {step}
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setTelegramHint(false)}
+                  aria-label="Закрыть подсказку"
+                  className="-mr-1 -mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-white/40 transition-colors hover:bg-white/10 hover:text-white/70"
+                >
+                  <X className="h-4 w-4" strokeWidth={2} />
+                </button>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => {
+                  window.open(contacts.telegramLink, "_blank", "noopener,noreferrer");
+                  setTelegramHint(false);
+                }}
+                className="mt-4 flex h-[50px] w-full items-center justify-center rounded-2xl bg-[#E4002B] text-[14px] font-semibold text-white transition-colors hover:bg-[#c90026]"
+              >
+                Открыть Telegram
+              </button>
+            </div>
+          </div>,
+          document.body,
+        )}
     </section>
   );
 }
