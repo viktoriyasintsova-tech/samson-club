@@ -1,11 +1,8 @@
 import { club } from "../data/club";
 import { directions } from "../data/directions";
-import { messengerTexts } from "../data/contacts";
-import { buildMessengerLink } from "../utils/helpers";
 import Button from "./ui/Button";
 
 export default function Hero() {
-  const link = buildMessengerLink("whatsapp", messengerTexts.freeTrial);
   const directionWords = directions
     .filter((item) => item.title.toLowerCase() !== "индивидуальные")
     .map((item) => item.title.toLowerCase());
@@ -25,7 +22,7 @@ export default function Hero() {
 
             <div className="reveal mt-8 sm:mt-12 sm:flex sm:justify-center" style={{ transitionDelay: "0.15s" }}>
               <Button
-                href={link}
+                href="#contacts"
                 size="md"
                 variant="accentFill"
                 className="flex h-[52px] w-full items-center justify-center whitespace-nowrap !rounded-xl px-3 font-['Unbounded'] text-[10.5px] font-semibold tracking-[-0.01em] sm:h-[60px] sm:w-[590px] sm:max-w-full sm:px-4 sm:text-[15px] sm:tracking-normal"

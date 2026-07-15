@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { club, navLinks } from "../data/club";
-import { messengerTexts } from "../data/contacts";
-import { buildMessengerLink } from "../utils/helpers";
 import Button from "./ui/Button";
 
 const LIGHT_SECTION_IDS = ["camp"];
@@ -10,7 +8,6 @@ const LIGHT_SECTION_IDS = ["camp"];
 export default function Header() {
   const [open, setOpen] = useState(false);
   const [light, setLight] = useState(false);
-  const link = buildMessengerLink("whatsapp", messengerTexts.freeTrial);
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -78,7 +75,7 @@ export default function Header() {
 
         <div className="flex items-center gap-3">
           <Button
-            href={link}
+            href="#contacts"
             variant={lightUI ? "headerAccentLight" : "headerAccent"}
             size="header"
             className="hidden md:inline-flex"
@@ -113,7 +110,7 @@ export default function Header() {
               </a>
             ))}
             <Button
-              href={link}
+              href="#contacts"
               variant="accentFill"
               size="lg"
               onClick={() => setOpen(false)}
