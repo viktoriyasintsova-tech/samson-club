@@ -25,7 +25,7 @@ export default function Header() {
 
     const onScroll = () => {
       const about = document.getElementById("about");
-      const isDesktop = window.matchMedia("(min-width: 768px)").matches;
+      const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
 
       if (isDesktop && about) {
         setHidden(about.getBoundingClientRect().bottom < probe);
@@ -59,8 +59,8 @@ export default function Header() {
 
   return (
     <header
-      className={`site-header relative z-50 px-4 pt-5 md:fixed md:inset-x-0 md:top-0 md:transition-transform md:duration-500 md:ease-[cubic-bezier(0.22,1,0.36,1)] ${
-        hidden ? "md:-translate-y-full" : "md:translate-y-0"
+      className={`site-header absolute inset-x-0 top-0 z-50 px-4 pt-5 lg:fixed lg:transition-transform lg:duration-500 lg:ease-[cubic-bezier(0.22,1,0.36,1)] ${
+        hidden ? "lg:-translate-y-full" : "lg:translate-y-0"
       }`}
     >
       <div className="site-container relative flex items-center justify-between gap-4 py-1">
@@ -76,7 +76,7 @@ export default function Header() {
           />
         </a>
 
-        <nav className="absolute left-1/2 hidden -translate-x-1/2 gap-8 md:flex">
+        <nav className="absolute left-1/2 hidden -translate-x-1/2 gap-8 lg:flex">
           {navLinks.map((item) => (
             <a
               key={item.href}
@@ -95,14 +95,14 @@ export default function Header() {
             href={link}
             variant={lightUI ? "headerAccentLight" : "headerAccent"}
             size="header"
-            className="hidden md:inline-flex"
+            className="hidden lg:inline-flex"
           >
             Записаться
           </Button>
 
           <button
             type="button"
-            className={`relative z-[60] transition-colors md:hidden ${
+            className={`relative z-[60] transition-colors lg:hidden ${
               lightUI ? "text-[#141414]" : "text-white"
             }`}
             onClick={() => setOpen((v) => !v)}
@@ -114,7 +114,7 @@ export default function Header() {
       </div>
 
       {open && (
-        <div className="fixed inset-0 z-50 flex flex-col bg-[#05060a]/95 backdrop-blur-3xl md:hidden">
+        <div className="fixed inset-0 z-50 flex flex-col bg-[#05060a]/95 backdrop-blur-3xl lg:hidden">
           <nav className="flex flex-1 flex-col items-center justify-center gap-7">
             {navLinks.map((item) => (
               <a

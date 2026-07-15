@@ -255,13 +255,9 @@
     isolation: isolate;
   }
 
-  .hero-shell {
-    position: relative;
-  }
-
-  @media (max-width: 767px) {
+  @media (max-width: 1023px) {
     .site-header {
-      position: relative;
+      position: absolute !important;
     }
   }
 
@@ -311,7 +307,7 @@
     z-index: 1;
   }
 
-  .hero-stage > * {
+  .hero-stage > *:not(.site-header) {
     position: relative;
     z-index: 2;
   }
