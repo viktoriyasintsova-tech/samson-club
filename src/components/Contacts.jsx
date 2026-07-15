@@ -18,12 +18,131 @@ async function copyText(text) {
   }
 }
 
+function MessengerPickerModal({ onClose, onSelect }) {
+  return createPortal(
+    <div className="fixed inset-0 z-[200] flex items-end justify-center px-4 pb-[max(16px,env(safe-area-inset-bottom))] sm:items-center sm:pb-4">
+      <button
+        type="button"
+        aria-label="Закрыть"
+        onClick={onClose}
+        className="absolute inset-0 bg-black/70"
+      />
+      <div className="relative w-full max-w-[440px] rounded-3xl border border-white/10 bg-[#111318] p-5 shadow-[0_24px_60px_rgba(0,0,0,0.45)] sm:p-6">
+        <div className="flex items-start justify-between gap-3">
+          <div>
+            <p className="text-[15px] font-semibold text-white">Выберите мессенджер</p>
+            <p className="mt-1 text-[13px] leading-[1.5] text-white/65">
+              Куда удобнее написать — в WhatsApp или Telegram?
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Закрыть выбор"
+            className="-mr-1 -mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-white/40 transition-colors hover:bg-white/10 hover:text-white/70"
+          >
+            <X className="h-4 w-4" strokeWidth={2} />
+          </button>
+        </div>
+
+        <div className="mt-5 grid gap-3">
+          <button
+            type="button"
+            onClick={() => onSelect("whatsapp")}
+            className="flex h-[50px] items-center justify-center rounded-2xl border border-white/15 bg-white/5 text-[14px] font-semibold text-white transition-colors hover:border-[#E4002B]/50 hover:bg-[#E4002B]/10"
+          >
+            WhatsApp
+          </button>
+          <button
+            type="button"
+            onClick={() => onSelect("telegram")}
+            className="flex h-[50px] items-center justify-center rounded-2xl border border-white/15 bg-white/5 text-[14px] font-semibold text-white transition-colors hover:border-[#E4002B]/50 hover:bg-[#E4002B]/10"
+          >
+            Telegram
+          </button>
+        </div>
+      </div>
+    </div>,
+    document.body,
+  );
+}
+
+function PasteHintModal({ messenger, onClose, onOpen }) {
+  const isTelegram = messenger === "telegram";
+  const title = isTelegram ? "Текст скопирован в буфер обмена" : "Заявка скопирована";
+  const description = isTelegram
+    ? "Текст сохранён в буфер обмена. Откройте диалог в Telegram и вставьте сообщение."
+    : "Текст сохранён в буфер обмена. Откроется WhatsApp — при необходимости вставьте сообщение в чат.";
+  const steps = isTelegram
+    ? [
+        "Нажмите «Открыть Telegram» — откроется чат с тренером.",
+        "В поле сообщения нажмите «Вставить» (или Ctrl/⌘ + V).",
+        "Отправьте сообщение — мы свяжемся с вами.",
+      ]
+    : [
+        "Нажмите «Открыть WhatsApp» — откроется чат.",
+        "Если текст не подставился автоматически, вставьте его из буфера обмена.",
+        "Отправьте сообщение — мы свяжемся с вами.",
+      ];
+  const actionLabel = isTelegram ? "Открыть Telegram" : "Открыть WhatsApp";
+
+  return createPortal(
+    <div className="fixed inset-0 z-[200] flex items-end justify-center px-4 pb-[max(16px,env(safe-area-inset-bottom))] sm:items-center sm:pb-4">
+      <button
+        type="button"
+        aria-label="Закрыть"
+        onClick={onClose}
+        className="absolute inset-0 bg-black/70"
+      />
+      <div className="relative w-full max-w-[440px] rounded-3xl border border-white/10 bg-[#111318] p-5 shadow-[0_24px_60px_rgba(0,0,0,0.45)] sm:p-6">
+        <div className="flex items-start gap-3">
+          <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#E4002B] text-white">
+            <ClipboardCheck className="h-5 w-5" strokeWidth={1.9} />
+          </span>
+          <div className="min-w-0 flex-1">
+            <p className="text-[15px] font-semibold text-white">{title}</p>
+            <p className="mt-1.5 text-[13px] leading-[1.55] text-white/65">{description}</p>
+            <ol className="mt-3 space-y-2">
+              {steps.map((step, i) => (
+                <li key={step} className="flex gap-2.5 text-[13px] leading-[1.45] text-white/80">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white/10 text-[11px] font-semibold text-white">
+                    {i + 1}
+                  </span>
+                  {step}
+                </li>
+              ))}
+            </ol>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Закрыть подсказку"
+            className="-mr-1 -mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-white/40 transition-colors hover:bg-white/10 hover:text-white/70"
+          >
+            <X className="h-4 w-4" strokeWidth={2} />
+          </button>
+        </div>
+
+        <button
+          type="button"
+          onClick={onOpen}
+          className="mt-4 flex h-[50px] w-full items-center justify-center rounded-2xl bg-[#E4002B] text-[14px] font-semibold text-white transition-colors hover:bg-[#c90026]"
+        >
+          {actionLabel}
+        </button>
+      </div>
+    </div>,
+    document.body,
+  );
+}
+
 export default function Contacts() {
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
   const [direction, setDirection] = useState("");
   const [copied, setCopied] = useState(false);
-  const [telegramHint, setTelegramHint] = useState(false);
+  const [pickerOpen, setPickerOpen] = useState(false);
+  const [pasteHint, setPasteHint] = useState(null);
 
   const application = useMemo(() => {
     const lines = [
@@ -45,9 +164,29 @@ export default function Contacts() {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const openMessenger = async (messenger) => {
+    await copyText(application);
+    setPickerOpen(false);
+    setPasteHint(messenger);
+  };
+
+  const handleWhatsApp = async () => {
+    await copyText(application);
+    setPasteHint("whatsapp");
+  };
+
   const handleTelegram = async () => {
     await copyText(application);
-    setTelegramHint(true);
+    setPasteHint("telegram");
+  };
+
+  const handlePasteHintOpen = () => {
+    if (pasteHint === "telegram") {
+      window.open(contacts.telegramLink, "_blank", "noopener,noreferrer");
+    } else if (pasteHint === "whatsapp") {
+      window.open(whatsappLink, "_blank", "noopener,noreferrer");
+    }
+    setPasteHint(null);
   };
 
   const inputBase =
@@ -132,14 +271,10 @@ export default function Contacts() {
             </button>
 
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-              <Button href={whatsappLink} variant="headerAccent" className="flex-1 justify-center">
+              <Button onClick={handleWhatsApp} variant="headerAccent" className="flex-1 justify-center">
                 WhatsApp
               </Button>
-              <Button
-                onClick={handleTelegram}
-                variant="headerAccent"
-                className="flex-1 justify-center"
-              >
+              <Button onClick={handleTelegram} variant="headerAccent" className="flex-1 justify-center">
                 Telegram
               </Button>
               <Button href={maxLink} variant="headerAccent" className="flex-1 justify-center">
@@ -161,13 +296,14 @@ export default function Contacts() {
                 <p className="text-xs uppercase tracking-[0.18em] text-white/50">
                   Telegram · WhatsApp
                 </p>
-                <a
-                  href={contacts.phoneLink}
-                  className="mt-1 flex items-center gap-2 text-xl font-semibold text-white transition-colors hover:text-[#E4002B]"
+                <button
+                  type="button"
+                  onClick={() => setPickerOpen(true)}
+                  className="mt-1 flex items-center gap-2 text-left text-xl font-semibold text-white transition-colors hover:text-[#E4002B]"
                 >
                   <Phone size={18} className="text-[#E4002B]" />
                   {contacts.phone}
-                </a>
+                </button>
               </div>
 
               <div>
@@ -211,69 +347,20 @@ export default function Contacts() {
         </div>
       </div>
 
-      {telegramHint &&
-        typeof document !== "undefined" &&
-        createPortal(
-          <div className="fixed inset-0 z-[200] flex items-end justify-center px-4 pb-[max(16px,env(safe-area-inset-bottom))] sm:items-center sm:pb-4">
-            <button
-              type="button"
-              aria-label="Закрыть"
-              onClick={() => setTelegramHint(false)}
-              className="absolute inset-0 bg-black/70"
-            />
-            <div className="relative w-full max-w-[440px] rounded-3xl border border-white/10 bg-[#111318] p-5 shadow-[0_24px_60px_rgba(0,0,0,0.45)] sm:p-6">
-              <div className="flex items-start gap-3">
-                <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#E4002B] text-white">
-                  <ClipboardCheck className="h-5 w-5" strokeWidth={1.9} />
-                </span>
-                <div className="min-w-0 flex-1">
-                  <p className="text-[15px] font-semibold text-white">Заявка скопирована</p>
-                  <p className="mt-1.5 text-[13px] leading-[1.55] text-white/65">
-                    Текст заявки сохранён в буфер обмена. Откройте Telegram и вставьте сообщение в
-                    чат.
-                  </p>
-                  <ol className="mt-3 space-y-2">
-                    {[
-                      "Нажмите «Открыть Telegram» — откроется чат с тренером.",
-                      "В поле сообщения нажмите «Вставить» (или Ctrl/⌘ + V).",
-                      "Отправьте сообщение — мы свяжемся с вами.",
-                    ].map((step, i) => (
-                      <li
-                        key={step}
-                        className="flex gap-2.5 text-[13px] leading-[1.45] text-white/80"
-                      >
-                        <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white/10 text-[11px] font-semibold text-white">
-                          {i + 1}
-                        </span>
-                        {step}
-                      </li>
-                    ))}
-                  </ol>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setTelegramHint(false)}
-                  aria-label="Закрыть подсказку"
-                  className="-mr-1 -mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-white/40 transition-colors hover:bg-white/10 hover:text-white/70"
-                >
-                  <X className="h-4 w-4" strokeWidth={2} />
-                </button>
-              </div>
+      {pickerOpen && typeof document !== "undefined" && (
+        <MessengerPickerModal
+          onClose={() => setPickerOpen(false)}
+          onSelect={openMessenger}
+        />
+      )}
 
-              <button
-                type="button"
-                onClick={() => {
-                  window.open(contacts.telegramLink, "_blank", "noopener,noreferrer");
-                  setTelegramHint(false);
-                }}
-                className="mt-4 flex h-[50px] w-full items-center justify-center rounded-2xl bg-[#E4002B] text-[14px] font-semibold text-white transition-colors hover:bg-[#c90026]"
-              >
-                Открыть Telegram
-              </button>
-            </div>
-          </div>,
-          document.body,
-        )}
+      {pasteHint && typeof document !== "undefined" && (
+        <PasteHintModal
+          messenger={pasteHint}
+          onClose={() => setPasteHint(null)}
+          onOpen={handlePasteHintOpen}
+        />
+      )}
     </section>
   );
 }
