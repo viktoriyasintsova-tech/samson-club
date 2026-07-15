@@ -18,6 +18,16 @@ async function copyText(text) {
   }
 }
 
+function openExternalLink(url) {
+  const link = document.createElement("a");
+  link.href = url;
+  link.target = "_blank";
+  link.rel = "noopener noreferrer";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
 function MessengerPickerModal({ onClose, onSelect }) {
   return createPortal(
     <div className="fixed inset-0 z-[200] flex items-end justify-center px-4 pb-[max(16px,env(safe-area-inset-bottom))] sm:items-center sm:pb-4">
@@ -94,11 +104,11 @@ function PasteHintModal({ messenger, onClose, onOpen }) {
     max: {
       title: "Текст скопирован в буфер обмена",
       description:
-        "Текст сохранён в буфер обмена. Откройте диалог в MAX и вставьте сообщение.",
+        "Текст сохранён в буфер обмена. MAX откроет профиль клуба «Самсон» — затем начните диалог и вставьте заявку.",
       steps: [
-        "Нажмите «Открыть MAX» — откроется чат.",
-        "В поле сообщения нажмите «Вставить» (или Ctrl/⌘ + V).",
-        "Отправьте сообщение — мы свяжемся с вами.",
+        "Нажмите «Открыть MAX» — откроется профиль клуба.",
+        "Нажмите «Отправить сообщение» (или «Поделиться в MAX», если приложение ещё не установлено).",
+        "Вставьте скопированную заявку и отправьте сообщение.",
       ],
       actionLabel: "Открыть MAX",
     },
@@ -206,11 +216,11 @@ export default function Contacts() {
 
   const handlePasteHintOpen = () => {
     if (pasteHint === "telegram") {
-      window.open(contacts.telegramLink, "_blank", "noopener,noreferrer");
+      openExternalLink(contacts.telegramLink);
     } else if (pasteHint === "whatsapp") {
-      window.open(whatsappLink, "_blank", "noopener,noreferrer");
+      openExternalLink(whatsappLink);
     } else if (pasteHint === "max") {
-      window.open(contacts.maxLink, "_blank", "noopener,noreferrer");
+      openExternalLink(contacts.maxLink);
     }
     setPasteHint(null);
   };

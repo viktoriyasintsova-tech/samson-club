@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { camp, winterCamp } from "../data/club";
+import { campGallery } from "../data/campGallery";
+import CampGallery from "./CampGallery";
 
 export default function Camp() {
   const [season, setSeason] = useState("summer");
@@ -12,7 +14,10 @@ export default function Camp() {
           <p className="reveal text-xs font-semibold uppercase tracking-[0.24em] text-[#E4002B]">
             Ежегодные выезды
           </p>
-          <h2 className="reveal mt-4 text-3xl font-bold tracking-tight xs:text-4xl sm:text-5xl lg:text-6xl" style={{ transitionDelay: "0.08s" }}>
+          <h2
+            className="reveal mt-4 text-3xl font-bold tracking-tight xs:text-4xl sm:text-5xl lg:text-6xl"
+            style={{ transitionDelay: "0.08s" }}
+          >
             Спортивные сборы
           </h2>
 
@@ -64,6 +69,8 @@ export default function Camp() {
               <p className="mt-4 text-[15px] font-medium leading-relaxed text-black/80 sm:text-base">
                 {camp.lead}
               </p>
+
+              <CampGallery photos={campGallery} />
 
               <div className="mt-6 grid gap-4 sm:grid-cols-2 sm:items-stretch">
                 <div className="flex flex-col items-center justify-center rounded-2xl border border-white/10 bg-[#141414] px-5 py-4 text-center">

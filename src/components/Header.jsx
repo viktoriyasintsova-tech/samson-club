@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { club, navLinks } from "../data/club";
+import { asset } from "../utils/assets";
 import Button from "./ui/Button";
 
 const LIGHT_SECTION_IDS = ["camp"];
@@ -51,15 +52,15 @@ export default function Header() {
           <img
             src={
               lightUI
-                ? `${import.meta.env.BASE_URL}assets/logo-dark.png?v=8`
-                : `${import.meta.env.BASE_URL}assets/logo.png?v=8`
+                ? `${asset("assets/logo-camp.png")}?v=2`
+                : `${asset("assets/logo.png")}?v=2`
             }
             alt={club.name}
             className="h-14 w-auto sm:h-16"
           />
         </a>
 
-        <nav className="absolute left-1/2 hidden -translate-x-1/2 gap-8 md:flex">
+        <nav className="absolute left-1/2 hidden -translate-x-1/2 gap-8 desktop:flex">
           {navLinks.map((item) => (
             <a
               key={item.href}
@@ -78,14 +79,14 @@ export default function Header() {
             href="#contacts"
             variant={lightUI ? "headerAccentLight" : "headerAccent"}
             size="header"
-            className="hidden md:inline-flex"
+            className="hidden desktop:inline-flex"
           >
             Записаться
           </Button>
 
           <button
             type="button"
-            className={`relative z-[60] transition-colors md:hidden ${
+            className={`relative z-[60] transition-colors desktop:hidden ${
               lightUI ? "text-[#141414]" : "text-white"
             }`}
             onClick={() => setOpen((v) => !v)}
@@ -97,7 +98,7 @@ export default function Header() {
       </div>
 
       {open && (
-        <div className="fixed inset-0 z-50 flex flex-col bg-[#05060a]/95 backdrop-blur-3xl md:hidden">
+        <div className="fixed inset-0 z-50 flex flex-col bg-[#05060a]/95 backdrop-blur-3xl desktop:hidden">
           <nav className="flex flex-1 flex-col items-center justify-center gap-7">
             {navLinks.map((item) => (
               <a
