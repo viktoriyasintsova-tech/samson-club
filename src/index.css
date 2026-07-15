@@ -255,9 +255,13 @@
     isolation: isolate;
   }
 
+  .hero-shell {
+    position: relative;
+  }
+
   @media (max-width: 767px) {
     .site-header {
-      position: static;
+      position: relative;
     }
   }
 

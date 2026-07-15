@@ -1,5 +1,6 @@
 import GlowBackground from "./components/GlowBackground";
 import Preloader from "./components/Preloader";
+import Header from "./components/Header";
 import Hero from "./components/Hero";
 import About from "./components/About";
 import DirectionsGrid from "./components/DirectionsGrid";
@@ -27,7 +28,10 @@ export default function App() {
       <GlowBackground />
       <div className="relative z-10">
         <main>
-          <Hero />
+          <div className="hero-shell relative">
+            <Header />
+            <Hero />
+          </div>
           <About />
           <Divider />
           <DirectionsGrid />

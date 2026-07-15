@@ -59,7 +59,7 @@ export default function Header() {
 
   return (
     <header
-      className={`site-header z-50 px-4 pt-5 md:fixed md:inset-x-0 md:top-0 md:transition-transform md:duration-500 md:ease-[cubic-bezier(0.22,1,0.36,1)] ${
+      className={`site-header relative z-50 px-4 pt-5 md:fixed md:inset-x-0 md:top-0 md:transition-transform md:duration-500 md:ease-[cubic-bezier(0.22,1,0.36,1)] ${
         hidden ? "md:-translate-y-full" : "md:translate-y-0"
       }`}
     >
