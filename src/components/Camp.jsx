@@ -65,8 +65,8 @@ export default function Camp() {
                 {camp.lead}
               </p>
 
-              <div className="mt-6 grid gap-4 sm:grid-cols-2">
-                <div className="rounded-2xl border border-white/10 bg-[#141414] px-5 py-4">
+              <div className="mt-6 grid gap-4 sm:grid-cols-2 sm:items-stretch">
+                <div className="flex flex-col items-center justify-center rounded-2xl border border-white/10 bg-[#141414] px-5 py-4 text-center">
                   <p className="text-[11px] uppercase tracking-[0.2em] text-[#E4002B]">Возраст</p>
                   <p className="mt-1 text-lg font-semibold text-white">{camp.age}</p>
                 </div>

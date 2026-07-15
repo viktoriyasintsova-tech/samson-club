@@ -39,7 +39,6 @@ export default function Preloader() {
             </span>
           ))}
         </div>
-        <div className="preloader__bar" />
       </div>
     </div>
   );
