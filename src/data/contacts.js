@@ -7,6 +7,7 @@ export const contacts = {
   maxPhoneLink: "tel:+79059697107",
   whatsapp: "https://wa.me/79832165555",
   telegramLink: "https://t.me/Nikita_Neshtukov",
+  maxLink: "https://max.ru/u/f9LHodD0cOINfgmYRU3J58pI_GpsUNa1vtTzJ9_tM8RraHTTHqodcWgZqI4",
   locations: [
     {
       name: "Рудничный район",

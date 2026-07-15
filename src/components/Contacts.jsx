@@ -68,23 +68,43 @@ function MessengerPickerModal({ onClose, onSelect }) {
 }
 
 function PasteHintModal({ messenger, onClose, onOpen }) {
-  const isTelegram = messenger === "telegram";
-  const title = isTelegram ? "Текст скопирован в буфер обмена" : "Заявка скопирована";
-  const description = isTelegram
-    ? "Текст сохранён в буфер обмена. Откройте диалог в Telegram и вставьте сообщение."
-    : "Текст сохранён в буфер обмена. Откроется WhatsApp — при необходимости вставьте сообщение в чат.";
-  const steps = isTelegram
-    ? [
-        "Нажмите «Открыть Telegram» — откроется чат с тренером.",
-        "В поле сообщения нажмите «Вставить» (или Ctrl/⌘ + V).",
-        "Отправьте сообщение — мы свяжемся с вами.",
-      ]
-    : [
+  const config = {
+    whatsapp: {
+      title: "Заявка скопирована",
+      description:
+        "Текст сохранён в буфер обмена. Откроется WhatsApp — при необходимости вставьте сообщение в чат.",
+      steps: [
         "Нажмите «Открыть WhatsApp» — откроется чат.",
         "Если текст не подставился автоматически, вставьте его из буфера обмена.",
         "Отправьте сообщение — мы свяжемся с вами.",
-      ];
-  const actionLabel = isTelegram ? "Открыть Telegram" : "Открыть WhatsApp";
+      ],
+      actionLabel: "Открыть WhatsApp",
+    },
+    telegram: {
+      title: "Текст скопирован в буфер обмена",
+      description:
+        "Текст сохранён в буфер обмена. Откройте диалог в Telegram и вставьте сообщение.",
+      steps: [
+        "Нажмите «Открыть Telegram» — откроется чат с тренером.",
+        "В поле сообщения нажмите «Вставить» (или Ctrl/⌘ + V).",
+        "Отправьте сообщение — мы свяжемся с вами.",
+      ],
+      actionLabel: "Открыть Telegram",
+    },
+    max: {
+      title: "Текст скопирован в буфер обмена",
+      description:
+        "Текст сохранён в буфер обмена. Откройте диалог в MAX и вставьте сообщение.",
+      steps: [
+        "Нажмите «Открыть MAX» — откроется чат.",
+        "В поле сообщения нажмите «Вставить» (или Ctrl/⌘ + V).",
+        "Отправьте сообщение — мы свяжемся с вами.",
+      ],
+      actionLabel: "Открыть MAX",
+    },
+  };
+
+  const { title, description, steps, actionLabel } = config[messenger];
 
   return createPortal(
     <div className="fixed inset-0 z-[200] flex items-end justify-center px-4 pb-[max(16px,env(safe-area-inset-bottom))] sm:items-center sm:pb-4">
@@ -156,7 +176,6 @@ export default function Contacts() {
 
   const encoded = encodeURIComponent(application);
   const whatsappLink = `https://wa.me/${contacts.whatsappNumber}?text=${encoded}`;
-  const maxLink = `https://max.ru/:share?text=${encoded}`;
 
   const handleCopy = async () => {
     await copyText(application);
@@ -180,11 +199,18 @@ export default function Contacts() {
     setPasteHint("telegram");
   };
 
+  const handleMax = async () => {
+    await copyText(application);
+    setPasteHint("max");
+  };
+
   const handlePasteHintOpen = () => {
     if (pasteHint === "telegram") {
       window.open(contacts.telegramLink, "_blank", "noopener,noreferrer");
     } else if (pasteHint === "whatsapp") {
       window.open(whatsappLink, "_blank", "noopener,noreferrer");
+    } else if (pasteHint === "max") {
+      window.open(contacts.maxLink, "_blank", "noopener,noreferrer");
     }
     setPasteHint(null);
   };
@@ -277,7 +303,7 @@ export default function Contacts() {
               <Button onClick={handleTelegram} variant="headerAccent" className="flex-1 justify-center">
                 Telegram
               </Button>
-              <Button href={maxLink} variant="headerAccent" className="flex-1 justify-center">
+              <Button onClick={handleMax} variant="headerAccent" className="flex-1 justify-center">
                 MAX
               </Button>
             </div>
@@ -310,13 +336,14 @@ export default function Contacts() {
                 <p className="text-xs uppercase tracking-[0.18em] text-white/50">
                   {contacts.maxName} · MAX
                 </p>
-                <a
-                  href={contacts.maxPhoneLink}
-                  className="mt-1 flex items-center gap-2 text-xl font-semibold text-white transition-colors hover:text-[#E4002B]"
+                <button
+                  type="button"
+                  onClick={handleMax}
+                  className="mt-1 flex items-center gap-2 text-left text-xl font-semibold text-white transition-colors hover:text-[#E4002B]"
                 >
                   <Phone size={18} className="text-[#E4002B]" />
                   {contacts.maxPhone}
-                </a>
+                </button>
               </div>
 
               <div>
