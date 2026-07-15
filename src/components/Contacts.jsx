@@ -167,15 +167,22 @@ export default function Contacts() {
               </div>
 
               <div>
-                <p className="text-xs uppercase tracking-[0.18em] text-white/50">Адрес</p>
-                <a
-                  href={contacts.mapLink}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mt-1 block text-sm leading-relaxed text-white/80 transition-colors hover:text-white"
-                >
-                  {contacts.address}
-                </a>
+                <p className="text-xs uppercase tracking-[0.18em] text-white/50">Адреса секций</p>
+                <div className="mt-3 space-y-4">
+                  {contacts.locations.map((location) => (
+                    <div key={location.name}>
+                      <p className="text-sm font-semibold text-white">{location.name}</p>
+                      <a
+                        href={location.mapLink}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="mt-1 block text-sm leading-relaxed text-white/80 transition-colors hover:text-white"
+                      >
+                        {location.address}
+                      </a>
+                    </div>
+                  ))}
+                </div>
               </div>
 
               <div>

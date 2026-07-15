@@ -7,8 +7,18 @@ export const contacts = {
   maxPhoneLink: "tel:+79059697107",
   telegram: "https://t.me/share/url?url=&text=",
   whatsapp: "https://wa.me/79832165555",
-  address: "ул. Боровая, 99г, с. Елыкаево, Губернаторская женская гимназия",
-  mapLink: "https://yandex.ru/maps/?text=Елыкаево%20Боровая%2099г",
+  locations: [
+    {
+      name: "Рудничный район",
+      address: "Серебряный Бор 2",
+      mapLink: "https://yandex.ru/maps/?text=Новосибирск%20Серебряный%20Бор%202",
+    },
+    {
+      name: "Лесная поляна",
+      address: "Солнечный бульвар 4",
+      mapLink: "https://yandex.ru/maps/?text=Новосибирск%20Солнечный%20бульвар%204",
+    },
+  ],
   hours: "Пн–Сб: по расписанию тренировок",
   email: "info@samson-club.ru",
 };
